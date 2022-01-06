@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { wave, waveFromContract } from "../types/waves";
 import abi from "../utils/YouWave.json";
+import useConnectWallet from "./useConnectWallet";
 
 const { ethereum } = window;
 const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS as string;
@@ -10,9 +11,11 @@ const contractABI = abi.abi;
 const useWave = () => {
   const [allWaves, setAllWaves] = useState<wave[]>([]);
 
+  const { currentAccount } = useConnectWallet();
+
   useEffect(() => {
     getAllWaves();
-  }, []);
+  }, [currentAccount]);
 
   const getAllWaves = async () => {
     try {
